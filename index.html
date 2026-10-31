@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f0e5">
+    <title>Hearthside — A little village game</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <div class="game-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Hearthside home">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span>hearthside<span class="brand-period">.</span></span>
+        </a>
+        <div class="topbar-right">
+          <span class="season-pill"><span class="sun-dot"></span> Early summer</span>
+          <button class="icon-button" id="sound-toggle" type="button" aria-label="Toggle sound" title="Toggle sound">♫</button>
+          <button class="avatar" id="reset-game" type="button" aria-label="Reset game" title="Reset village">M</button>
+        </div>
+      </header>
+
+      <div class="game-layout">
+        <aside class="sidebar">
+          <div class="village-label">YOUR LITTLE WORLD</div>
+          <nav class="main-nav" aria-label="Game sections">
+            <button class="nav-link active" data-view="village" type="button"><span class="nav-icon">⌂</span> Village</button>
+            <button class="nav-link" data-view="explore" type="button"><span class="nav-icon">↗</span> Explore <span class="nav-count">1</span></button>
+            <button class="nav-link" data-view="fishing" type="button"><span class="nav-icon">⌁</span> Fishing</button>
+            <button class="nav-link" data-view="quests" type="button"><span class="nav-icon">☷</span> Quests <span class="quest-dot"></span></button>
+          </nav>
+          <div class="sidebar-divider"></div>
+          <div class="village-label">YOUR JOURNAL</div>
+          <div class="journal-card">
+            <div class="journal-icon">✎</div>
+            <div><strong>Day <span id="day-count">1</span></strong><span>Making a home</span></div>
+          </div>
+          <div class="sidebar-spacer"></div>
+          <div class="side-tip"><span>✿</span><p>A good place to grow is a good place to be.</p></div>
+          <button class="save-link" id="save-status" type="button"><span class="save-dot"></span> Your progress is saved</button>
+        </aside>
+
+        <main class="main-content">
+          <section class="resource-bar" aria-label="Village resources">
+            <div class="resource"><span class="resource-icon wood-icon">♧</span><div><span class="resource-name">Wood</span><strong id="wood-count">0</strong></div><span class="resource-plus" data-resource="wood"></span></div>
+            <div class="resource"><span class="resource-icon stone-icon">◈</span><div><span class="resource-name">Stone</span><strong id="stone-count">0</strong></div></div>
+            <div class="resource"><span class="resource-icon berry-icon">●</span><div><span class="resource-name">Berries</span><strong id="berries-count">0</strong></div></div>
+            <div class="resource"><span class="resource-icon fish-icon">≈</span><div><span class="resource-name">Fish</span><strong id="fish-count">0</strong></div></div>
+            <div class="resource"><span class="resource-icon coin-icon">✦</span><div><span class="resource-name">Coins</span><strong id="coins-count">0</strong></div></div>
+          </section>
+
+          <section class="view active" id="view-village" aria-labelledby="page-title">
+            <div class="welcome-row">
+              <div><p class="eyebrow">A FRESH START</p><h1 id="page-title">Your village, <span class="serif-accent">your story.</span></h1><p class="page-subtitle">A quiet corner of the world is waiting to bloom.</p></div>
+              <div class="weather-card"><span class="weather-icon">☀</span><div><strong>Sunny &amp; mild</strong><span>Perfect for a little wandering</span></div></div>
+            </div>
+            <div class="village-scene">
+              <div class="scene-sun"></div><span class="scene-bird bird-one">⌁</span><span class="scene-bird bird-two">⌁</span>
+              <div class="scene-hill hill-back"></div><div class="scene-hill hill-front"></div>
+              <span class="scene-flower flower-one">✿</span><span class="scene-flower flower-two">✿</span><span class="scene-flower flower-three">✿</span>
+              <div class="scene-path"></div>
+              <div class="scene-house"><div class="house-roof"></div><div class="house-wall"><span class="house-window"></span><span class="house-door"></span><span class="house-window"></span></div><div class="house-step"></div></div>
+              <div class="scene-tree tree-one"><div class="tree-top">♣</div><div class="tree-trunk"></div></div>
+              <div class="scene-tree tree-two"><div class="tree-top">♣</div><div class="tree-trunk"></div></div>
+              <div class="scene-tree tree-three"><div class="tree-top">♣</div><div class="tree-trunk"></div></div>
+              <div class="scene-sign">HOME <span>♥</span></div>
+              <div class="scene-caption"><span class="live-dot"></span> A peaceful little place <span class="caption-divider">·</span> Day <span id="scene-day">1</span></div>
+            </div>
+
+            <div class="section-heading"><div><p class="eyebrow">LITTLE BY LITTLE</p><h2>Make it your own</h2></div><span class="muted-caption">Your village grows while you do</span></div>
+            <div class="building-grid" id="building-grid"></div>
+
+            <div class="lower-grid">
+              <section class="panel gathering-panel"><div class="panel-heading"><span class="panel-emoji">🌱</span><div><p class="eyebrow">OUT IN THE MEADOW</p><h3>Gather a little</h3></div></div><p class="panel-copy">There’s always something useful tucked away nearby.</p><div class="gather-actions"><button class="gather-button gather-wood" data-gather="wood" type="button"><span>♧</span><strong>Gather wood</strong><small>+3 wood</small></button><button class="gather-button gather-berries" data-gather="berries" type="button"><span>●</span><strong>Pick berries</strong><small>+2 berries</small></button></div><p class="action-hint" id="action-hint" aria-live="polite">A few supplies can go a long way.</p></section>
+              <section class="panel quest-panel"><div class="panel-heading"><span class="panel-emoji quest-emoji">✳</span><div><p class="eyebrow">A FRIENDLY REQUEST</p><h3 id="home-quest-title">A place to call home</h3></div><span class="quest-tag">QUEST</span></div><p class="panel-copy" id="home-quest-copy">Gather wood and help your first cottage feel a little more like home.</p><div class="quest-progress"><div class="progress-label"><span id="home-quest-progress-text">0 / 12 wood gathered</span><strong id="home-quest-percent">0%</strong></div><div class="progress-track"><div class="progress-fill" id="home-quest-progress-bar"></div></div></div><button class="text-button" data-navigate="quests" type="button">See all quests <span>→</span></button></section>
+            </div>
+          </section>
+
+          <section class="view" id="view-explore" aria-labelledby="explore-title">
+            <div class="page-header"><p class="eyebrow">THE WORLD BEYOND</p><h1 id="explore-title">Take the <span class="serif-accent">scenic route.</span></h1><p class="page-subtitle">Pack a few berries and see what the paths have to offer.</p></div>
+            <div class="explore-hero"><div class="explore-illustration"><div class="explore-moon">☀</div><div class="mountain mountain-far"></div><div class="mountain mountain-near"></div><div class="explore-pine pine-a">♠</div><div class="explore-pine pine-b">♠</div><div class="explore-path"></div><span class="explore-spark spark-a">✦</span><span class="explore-spark spark-b">✿</span></div><div class="explore-details"><p class="eyebrow">NEARBY • EASY TRAIL</p><h2>The Mossy Trail</h2><p>A winding path through the old woods. The locals say it’s home to a particularly grumpy boar — and some very nice wildflowers.</p><div class="trail-facts"><span>◷ &nbsp;A short walk</span><span>♡ &nbsp;Gentle adventure</span></div><div class="trail-cost"><span>Pack 1 berry for the road</span><button class="primary-button" id="start-explore" type="button">Set out <span>→</span></button></div></div></div>
+            <div class="section-heading"><div><p class="eyebrow">YOUR TRAVEL NOTES</p><h2>Adventures so far</h2></div></div>
+            <section class="panel expedition-panel" id="expedition-panel"><span class="panel-emoji">🗺️</span><div><h3>The trail is waiting</h3><p>Bring a berry along, and you’ll be ready for whatever you find.</p></div><span class="trail-badge">UNEXPLORED</span></section>
+            <div class="combat-card hidden" id="combat-card"></div>
+          </section>
+
+          <section class="view" id="view-fishing" aria-labelledby="fishing-title">
+            <div class="page-header"><p class="eyebrow">DOWN BY THE WATER</p><h1 id="fishing-title">A moment to <span class="serif-accent">unwind.</span></h1><p class="page-subtitle">The lake is calm, the fish are curious. What could be better?</p></div>
+            <div class="fishing-layout"><div class="lake-scene"><div class="lake-sun"></div><div class="lake-hill"></div><div class="lake-water"><div class="water-line line-one"></div><div class="water-line line-two"></div><div class="water-line line-three"></div><span class="lake-ripple">〰</span></div><span class="lake-reed reed-one">♨</span><span class="lake-reed reed-two">♨</span><span class="lake-flower">✿</span><div class="lake-label"><span class="live-dot"></span> Willowmere Lake</div></div><section class="panel fishing-panel"><span class="fishing-emoji">🎣</span><p class="eyebrow">THE WATER’S JUST RIGHT</p><h2>Try your luck?</h2><p>Cast a line and see what’s nibbling. Every catch is a little surprise.</p><div class="catch-stats"><div><span>Fish caught</span><strong id="fish-total">0</strong></div><div><span>Fishing streak</span><strong id="fish-streak">0 days</strong></div></div><button class="primary-button fishing-button" id="cast-line" type="button">Cast a line <span>→</span></button><p class="fishing-result" id="fishing-result" aria-live="polite">Listen to the water for a moment.</p></section></div>
+            <section class="panel fishing-note"><span>✦</span><p><strong>A little tip</strong> The fisherman by the old bridge trades rare catches for coins. First, you’ll need a few fish to share.</p></section>
+          </section>
+
+          <section class="view" id="view-quests" aria-labelledby="quests-title">
+            <div class="page-header"><p class="eyebrow">SMALL STEPS, GOOD THINGS</p><h1 id="quests-title">Your little <span class="serif-accent">to-do list.</span></h1><p class="page-subtitle">A few friendly ideas for your first days in the valley.</p></div>
+            <div class="quest-summary"><span class="quest-summary-icon">✳</span><div><strong>Good things take time.</strong><p>Every task brings your village a little closer to home.</p></div><span class="quest-summary-count" id="quests-completed-count">0 / 4 complete</span></div>
+            <div class="quest-list" id="quest-list"></div>
+          </section>
+
+          <section class="inventory-strip"><div class="inventory-heading"><span class="inventory-bag">▣</span><div><strong>Your pockets</strong><span>A little bit of everything</span></div><button class="inventory-expand" id="inventory-toggle" type="button" aria-expanded="false">Details <span>⌄</span></button></div><div class="inventory-details hidden" id="inventory-details"></div></section>
+          <footer class="footer"><span>Made with a little sunshine <span class="footer-heart">♥</span></span><button id="restart-link" type="button">Start a new story</button></footer>
+        </main>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </body>
+</html>
